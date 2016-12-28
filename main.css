@@ -1,0 +1,134 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: lightblue;
+    --card-count: 6;
+    --card-width: 150px;
+}
+
+main {
+}
+
+.cards {
+    background-color: #F0F0F0;
+    border: 3px solid gray;
+    box-sizing: content-box;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 auto;
+    min-height: var(--card-width);
+    padding: 5px;
+    width: calc( ( var(--card-width) + 10px) * var(--card-count) );
+}
+
+.card {
+    display: block;
+    width: var(--card-width); 
+    height: var(--card-width);
+    position: relative;
+    --flip-card-speed: 0.8s;
+    --card-border: 5px;
+    margin: 5px;
+}
+
+.card > .front,
+.card > .back {
+    display: block;
+    backface-visibility: hidden;
+    border: var(--card-border) solid white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.24);
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.card > .front {
+    background-color: gray;
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: rotateY(180deg);
+    background-position: center center;
+}
+
+.card > .back {
+    background: lawngreen;
+}
+
+.card > .back::before {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+    content: '';
+    opacity: 0.20;
+    background-image: repeating-linear-gradient(25deg, green, blue, yellow, white, red, indigo, black);
+}
+
+.card > .back::after {
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+    content: '';
+    opacity: 0.25;
+    background-image: repeating-linear-gradient(105deg, green, blue, yellow, white, red, indigo, black);
+}
+
+.card.concealed > .front {
+    animation-name: flip-conceal-front;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+.card.concealed > .back {
+    animation-name: flip-conceal-back;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+.card.revealed > .front {
+    animation-name: flip-reveal-front;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+.card.revealed > .back {
+    animation-name: flip-reveal-back;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes remove-anim {
+    100% { transform: rotate(1080deg) scale(0.2); opacity: 0; }
+}
+
+@keyframes flip-shadow {
+    0%   { transform: rotateY(0deg)    scale(1); }
+    15%  { transform: rotateY(0deg)    scale(0.8); }
+    65%  { transform: rotateY(180deg)  scale(0.8); }
+    100% { transform: rotateY(180deg)  scale(1); }
+}
+
+@keyframes flip-reveal-front {
+    0%   { transform: rotateY(180deg)  scale(1);   z-index: 1000; }
+    15%  { transform: rotateY(180deg)  scale(1.4); z-index: 1000; }
+    65%  { transform: rotateY(0deg)    scale(1.4); z-index: 1000; }
+    100% { transform: rotateY(0deg)    scale(1);   z-index: auto; }
+}
+
+@keyframes flip-reveal-back {
+    0%   { transform: rotateY(0deg)    scale(1); z-index: 1000; }
+    15%  { transform: rotateY(0deg)    scale(1.4); z-index: 1000; }
+    65%  { transform: rotateY(-180deg) scale(1.4); z-index: 1000; }
+    100% { transform: rotateY(-180deg) scale(1); z-index: auto; }
+}
+
+@keyframes flip-conceal-front {
+    0%   { transform: rotateY(0deg)    scale(1); z-index: 1000; }
+    15%  { transform: rotateY(0deg)    scale(1.4); z-index: 1000; }
+    65%  { transform: rotateY(180deg)  scale(1.4); z-index: 1000; }
+    100% { transform: rotateY(180deg)  scale(1); z-index: auto; }
+}
+
+@keyframes flip-conceal-back {
+    0%   { transform: rotateY(-180deg) scale(1); z-index: 1000; }
+    15%  { transform: rotateY(-180deg) scale(1.4); z-index: 1000; }
+    65%  { transform: rotateY(0deg)    scale(1.4); z-index: 1000; }
+    100% { transform: rotateY(0deg)    scale(1); z-index: auto; }
+}
