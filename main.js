@@ -1,5 +1,16 @@
 'use strict';
 
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', {scope: './'}).then(function(reg) {
+        console.log('main.js --> ServiceWorker was installed:', reg);
+    }).catch(function(err) {
+        console.error('main.js --> ServiceWorker installation error:', err);
+    });
+} else {
+    console.log('main.js --> Browser does not support ServiceWorker.');
+}
+
+/////////
 
 var myApp = angular.module('myApp', ['ngAnimate']);
 

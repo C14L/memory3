@@ -1,2 +1,2 @@
 
-Same memory game, but using AngularJS.
+Same memory game, using AngularJS.

@@ -6,6 +6,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: lightblue;
+    overflow-x: hidden;
+    overflow-y: hidden;
     --card-count: 4;
     --card-gutter: 1vw;
     --card-width: 22vw;
@@ -39,8 +41,12 @@ body {
     flex-flow: row nowrap;
     opacity: 0.7;
     font-size: 32px;
-    line-height: 90px;
+    line-height: 40px;
     font-family: fantasy;
+}
+
+@media only screen and (min-width: 700px) {
+    line-height: 90px;
 }
 
 .counter > div {
