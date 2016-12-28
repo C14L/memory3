@@ -5,47 +5,100 @@ var myApp = angular.module('myApp', ['ngAnimate']);
 
 myApp.value('cardItems', 'cat dog elephant giraffe hippo kudu monkey panda pig seal squirrel zebra');
 
-myApp.value('cardMarks', '1 2');  // Name each card in a match group (default 2 cards per match).
+myApp.value('matchSize', 2);  // TODO: How many cards in a match. Default its a pair (2).
 
 /////////
 
 myApp.controller('CardsController', cardsController);
 
-cardsController.$inject = ['$scope', 'cardMarks', 'cardItems'];
+cardsController.$inject = ['$timeout', '$scope', 'matchSize', 'cardItems'];
 
-function cardsController ($scope, cardMarks, cardItems) {
+function cardsController ($timeout, $scope, matchSize, cardItems) {
 
-    $scope.cards = shuffleArray(getCardNames(cardMarks, cardItems.split(' ')));
+    $scope.turnedCounter = 0;
+    $scope.matchedCounter = 0;
+    $scope.timer = 0;
+    $scope.cards = shuffleArray(getCardNames());
     $scope.click = click;
-
-    activate();
 
     ////////////////
 
-    function activate() { }
-
-    function click(card) {
-        card.state = (card.state != 'revealed') ? 'revealed' : 'concealed';
+    /**
+     * Return the list of currently revealed cards.
+     */
+    function getRevealedCards() {
+        return $scope.cards.filter(function(c) { return c.state == 'revealed' });
     }
 
-    function getCardNames(marks, items) {
-        var names = [];
-        marks.split(' ').forEach(function(n){
+    /**
+     * Checks if a full pair of matching cards is currently revealed.
+     * If so, waits for the last card to turn and adds "remove" state
+     * to initiate the remove animation.
+     */
+    function removeIfMatching() {
+        const revealedCards = getRevealedCards();
+        if (revealedCards.length < matchSize) return false;
+
+        $scope.turnedCounter += 1;
+        
+        for (let i=1; i<revealedCards.length; i++) {
+            if (revealedCards[0].group != revealedCards[i].group) {
+                return false;
+            }
+        }
+
+        $timeout(function(){
+            $scope.matchedCounter += 1;
+            revealedCards.map(function(c){ c.state = 'remove' });
+        }, 800);
+        return true;
+    }
+
+    function concealAllCards() {
+        $scope.cards.map(function(c){ 
+            if (c.state == 'revealed') c.state = 'concealed';
+        });
+    }
+
+    /**
+     * Handler for a click on a card.
+     */
+    function click(card) {
+        const revealedCards = getRevealedCards();
+
+        if (revealedCards.length < matchSize) {
+            card.state = (card.state != 'revealed') ? 'revealed' : card.state;
+            removeIfMatching();
+        } else {
+            concealAllCards();
+        }
+    }
+
+    /**
+     * Return a list of card objects made from the cardItems names.
+     */
+    function getCardNames() {
+        const items = cardItems.split(' ');
+        let names = [];
+        for (let i=1; i<=matchSize; i++) {
             names = names.concat(items.map(function(x){
                 return {
-                    name: x + '-' + n,
+                    name: x + '-' + i,
                     group: x,
                     state: 'untouched',
                 };
             }));
-        });
+        }
         return names;
     }
 
+    /**
+     * Randomly order an array.
+     */
     function shuffleArray (arr) {
-        for (var i = arr.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = arr[i];
+        for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
         }

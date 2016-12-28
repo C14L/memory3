@@ -23,7 +23,6 @@
         <script src="main.js"></script>
     </head>
     <body ng-app="myApp">
-        <header></header>
         <main ng-controller="CardsController">
             <div class="cards">
                 <div ng-if="card" class="card {{card.state}}" ng-click="click(card)" ng-repeat="card in cards track by $index">
@@ -31,10 +30,11 @@
                     <div class="back"></div>
                 </div>
             </div>
+            <div class="counter">
+                <div ng-bind="turnedCounter"></div>
+                <div ng-bind="matchedCounter"></div>
+                <div ng-bind="timer"></div>
+            </div>
         </main>
-        <footer>
-            &copy; 2016 &mdash; 
-            <a href="https://C14L.com/impressum.html">Impressum - Datenschutz - Kontakt</a>
-        </footer>
     </body>
 </html>

@@ -3,24 +3,64 @@
 }
 
 body {
+    margin: 0;
+    padding: 0;
     background-color: lightblue;
-    --card-count: 6;
-    --card-width: 150px;
+    --card-count: 4;
+    --card-gutter: 1vw;
+    --card-width: 22vw;
+    --card-border: 1vw;
+    --flip-card-speed: 0.8s;
 }
 
-main {
+@media only screen and (min-width: 700px) {
+    body {
+        --card-count: 6;
+        --card-gutter: 5px;
+        --card-border: 3px;
+        --card-width: 14vw;
+    }
+}
+
+@media only screen and (min-width: 970px) {
+    body {
+        --card-count: 6;
+        --card-gutter: 5px;
+        --card-border: 5px;
+        --card-width: 150px;
+    }
+}
+
+.counter {
+    position: fixed; right: 0; bottom: 0; left: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    opacity: 0.7;
+    font-size: 32px;
+    line-height: 90px;
+    font-family: fantasy;
+}
+
+.counter > div {
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+.counter > div + div {
+    border-left: 1px dotted rgba(255,255,255,0.64) 
 }
 
 .cards {
-    background-color: #F0F0F0;
-    border: 3px solid gray;
+    background-color: transparent;
     box-sizing: content-box;
     display: flex;
     flex-flow: row wrap;
     margin: 0 auto;
     min-height: var(--card-width);
-    padding: 5px;
-    width: calc( ( var(--card-width) + 10px) * var(--card-count) );
+    padding: var(--card-gutter);
+    width: calc( ( var(--card-width) + ( 2 * var(--card-gutter) ) ) * var(--card-count) );
 }
 
 .card {
@@ -28,9 +68,7 @@ main {
     width: var(--card-width); 
     height: var(--card-width);
     position: relative;
-    --flip-card-speed: 0.8s;
-    --card-border: 5px;
-    margin: 5px;
+    margin: var(--card-gutter);
 }
 
 .card > .front,
@@ -53,7 +91,7 @@ main {
 }
 
 .card > .back {
-    background: lawngreen;
+    background: deepskyblue;
 }
 
 .card > .back::before {
@@ -82,16 +120,25 @@ main {
     animation-fill-mode: forwards;
 }
 
+.card.remove > .front,
 .card.revealed > .front {
     animation-name: flip-reveal-front;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
 }
 
+.card.remove > .back,
 .card.revealed > .back {
     animation-name: flip-reveal-back;
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
+}
+
+.card.remove {
+    animation-name: remove-anim;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    pointer-events: none;
 }
 
 @keyframes remove-anim {
