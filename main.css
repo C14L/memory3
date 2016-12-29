@@ -3,16 +3,41 @@
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: lightblue;
     overflow-x: hidden;
     overflow-y: hidden;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+
     --card-count: 4;
     --card-gutter: 1vw;
     --card-width: 22vw;
     --card-border: 1vw;
     --flip-card-speed: 0.8s;
+}
+
+body::before {
+    z-index: -1;
+    content: '';
+    opacity: 0.4;
+    position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+    pointer-events: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: repeating-linear-gradient(25deg, green, blue, yellow, white, red, indigo, black);
+}
+
+body::after {
+    z-index: -2;
+    content: '';
+    opacity: 0.4;
+    position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+    pointer-events: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: repeating-linear-gradient(95deg, green, blue, yellow, white, red, indigo, black);
 }
 
 @media only screen and (min-width: 700px) {

@@ -22,9 +22,9 @@ myApp.value('matchSize', 2);  // TODO: How many cards in a match. Default its a 
 
 myApp.controller('CardsController', cardsController);
 
-cardsController.$inject = ['$timeout', '$scope', 'matchSize', 'cardItems'];
+cardsController.$inject = ['$timeout', '$interval', '$scope', 'matchSize', 'cardItems'];
 
-function cardsController ($timeout, $scope, matchSize, cardItems) {
+function cardsController ($timeout, $interval, $scope, matchSize, cardItems) {
 
     $scope.turnedCounter = 0;
     $scope.matchedCounter = 0;
@@ -33,6 +33,23 @@ function cardsController ($timeout, $scope, matchSize, cardItems) {
     $scope.click = click;
 
     ////////////////
+
+    let _timerPromise;
+
+    /**
+     * On first click, start timer.
+     */
+    function startTimer() {
+        if (!_timerPromise) {
+            _timerPromise = $interval(function(){ $scope.timer += 1; }, 1000);
+        }
+    }
+
+    function stopTimer() {
+        if (_timerPromise) {
+            $interval.cancel(_timerPromise);
+        }
+    }
 
     /**
      * Return the list of currently revealed cards.
@@ -61,6 +78,10 @@ function cardsController ($timeout, $scope, matchSize, cardItems) {
         $timeout(function(){
             $scope.matchedCounter += 1;
             revealedCards.map(function(c){ c.state = 'remove' });
+
+            if ($scope.matchedCounter >= ($scope.cards.length/2)) {
+                stopTimer();
+            }
         }, 800);
         return true;
     }
@@ -76,6 +97,8 @@ function cardsController ($timeout, $scope, matchSize, cardItems) {
      */
     function click(card) {
         const revealedCards = getRevealedCards();
+        
+        startTimer();
 
         if (revealedCards.length < matchSize) {
             card.state = (card.state != 'revealed') ? 'revealed' : card.state;
