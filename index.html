@@ -12,22 +12,22 @@
 
         <title>Memory3 / AngularJS</title>
 
-        <link rel="canonical" href="https://C14L.com/memory3/">
-        <link rel="stylesheet" href="/memory3/main.css">
-        <link rel="shortcut icon" href="/memory3/favicon.ico">
-        <link rel="manifest" href="/memory3/manifest.json">
+        <link rel="canonical"     href="https://C14L.com/memory/3/">
+        <link rel="stylesheet"    href="/memory/3/main.css">
+        <link rel="shortcut icon" href="/memory/3/favicon.ico">
+        <link rel="manifest"      href="/memory/3/manifest.json">
         
-        <script src="/memory3/angular.min.js"></script>
-        <script src="/memory3/angular-animate.min.js"></script>
-        <script src="/memory3/angular-aria.min.js"></script>
-        <script src="/memory3/angular-touch.js"></script>
-        <script src="/memory3/main.js"></script>
+        <script src="/memory/3/angular.min.js"></script>
+        <script src="/memory/3/angular-animate.min.js"></script>
+        <script src="/memory/3/angular-aria.min.js"></script>
+        <script src="/memory/3/angular-touch.js"></script>
+        <script src="/memory/3/main.js"></script>
     </head>
     <body ng-app="myApp">
         <main ng-controller="CardsController">
             <div class="cards">
                 <div ng-if="card" class="card {{card.state}}" ng-click="click(card)" ng-repeat="card in cards track by $index">
-                    <div class="front" style="background-image: url(/memory3/pics/{{ card.name }}.jpg)"></div>
+                    <div class="front" style="background-image: url(/memory/3/pics/{{ card.name }}.jpg)"></div>
                     <div class="back"></div>
                 </div>
             </div>

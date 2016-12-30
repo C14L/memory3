@@ -1,7 +1,7 @@
 'use strict';
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js', {scope: './'}).then(function(reg) {
+    navigator.serviceWorker.register('/memory/3/sw.js', {scope: '/memory/3/'}).then(function(reg) {
         console.log('main.js --> ServiceWorker was installed:', reg);
     }).catch(function(err) {
         console.error('main.js --> ServiceWorker installation error:', err);

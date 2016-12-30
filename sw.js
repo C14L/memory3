@@ -1,10 +1,10 @@
 
-const SW_VERSION = '3.15';
+const SW_VERSION = '3.16';
 const SW_ACTIVE = true;
 const SW_LOG_PREFIX = 'SW' + SW_VERSION + ' --> ';
 const SW_CACHE = 'memory' + SW_VERSION;
 
-const BASEPATH = '/memory3/';
+const BASEPATH = '/memory/3/';
 const ITEMSTRING = 'cat dog elephant giraffe hippo kudu monkey panda pig seal squirrel zebra';
 const FILES = [
         BASEPATH + 'angular-animate.min.js',
