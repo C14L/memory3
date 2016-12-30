@@ -1,5 +1,5 @@
 
-const SW_VERSION = '3.13';
+const SW_VERSION = '3.15';
 const SW_ACTIVE = true;
 const SW_LOG_PREFIX = 'SW' + SW_VERSION + ' --> ';
 const SW_CACHE = 'memory' + SW_VERSION;
@@ -20,6 +20,7 @@ const FILES = [
         BASEPATH + 'launcher-icon-4x.png', 
         BASEPATH + 'main.css', 
         BASEPATH + 'main.js',
+        BASEPATH + 'manifest.json',
     ].concat(get_pic_names(ITEMSTRING));
 
 if (SW_ACTIVE) {
