@@ -26,28 +26,40 @@ cardsController.$inject = ['$timeout', '$interval', '$scope', 'matchSize', 'card
 
 function cardsController ($timeout, $interval, $scope, matchSize, cardItems) {
 
-    $scope.turnedCounter = 0;
-    $scope.matchedCounter = 0;
-    $scope.timer = 0;
-    $scope.cards = shuffleArray(getCardNames());
-    $scope.click = click;
+    activate();
 
-    ////////////////
+    /////////////////
 
-    let _timerPromise;
+    function activate() {
+        $scope.isFinished = false;
+        $scope.isFinishedTurn = false;
+        $scope.isFinishedTimer = false;
+        $scope.points = 0;
+        $scope.turnedCounter = 0;
+        $scope.matchedCounter = 0;
+        $scope.timer = 0;
+        $scope.cards = shuffleArray(getCardNames());
+        $scope.click = click;
+    }
+
+    $scope.restart = function() {
+        console.log('--> should restart() now...');
+        activate();
+    }
 
     /**
      * On first click, start timer.
      */
+    let _timerPromise;
     function startTimer() {
         if (!_timerPromise) {
             _timerPromise = $interval(function(){ $scope.timer += 1; }, 1000);
         }
     }
-
     function stopTimer() {
         if (_timerPromise) {
             $interval.cancel(_timerPromise);
+            _timerPromise = undefined;
         }
     }
 
@@ -81,10 +93,31 @@ function cardsController ($timeout, $interval, $scope, matchSize, cardItems) {
 
             if ($scope.matchedCounter >= ($scope.cards.length/2)) {
                 stopTimer();
+
+                $scope.isFinished = true;
+                $timeout(function() { $scope.isFinishedTurn = true; }, 1000);
+                $timeout(function() { $scope.isFinishedTimer = true; }, 2000);
+                $timeout(function() {
+                    $scope.points = Math.floor(($scope.cards.length * 10) - (($scope.timer / 10) + ($scope.turnedCounter * 4)));
+                }, 3000);
             }
         }, 800);
         return true;
     }
+
+    /*
+
+For example: 
+  - 24 cards
+  - 28 turns
+  - 77 seconds
+  - 10 points per card
+  
+--> 24 cards x 10 ppc = 240 points
+--> (77 seconds / 10) + (28 turns x 4) = 119 penalty points.
+--> 240 points - 119 points = 121 points
+
+     */
 
     function concealAllCards() {
         $scope.cards.map(function(c){ 
@@ -140,6 +173,3 @@ function cardsController ($timeout, $interval, $scope, matchSize, cardItems) {
     }
 
 }
-
-/////////
-

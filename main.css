@@ -58,31 +58,6 @@ body::after {
     }
 }
 
-.counter {
-    position: fixed; right: 0; bottom: 0; left: 0;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-flow: row nowrap;
-    opacity: 0.7;
-    font-size: 32px;
-    line-height: 40px;
-    font-family: fantasy;
-}
-
-@media only screen and (min-width: 700px) {
-    line-height: 90px;
-}
-
-.counter > div {
-    flex: 1 0 auto;
-    text-align: center;
-}
-
-.counter > div + div {
-    border-left: 1px dotted rgba(255,255,255,0.64) 
-}
-
 .cards {
     background-color: transparent;
     box-sizing: content-box;
@@ -209,4 +184,89 @@ body::after {
     15%  { transform: rotateY(-180deg) scale(1.4); z-index: 1000; }
     65%  { transform: rotateY(0deg)    scale(1.4); z-index: 1000; }
     100% { transform: rotateY(0deg)    scale(1); z-index: auto; }
+}
+
+/* //////////////////////////// */
+
+.counter {
+    position: fixed; right: 0; bottom: 0; left: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    opacity: 0.7;
+    font-size: 32px;
+    line-height: 40px;
+    font-family: fantasy;
+}
+
+@media only screen and (min-width: 700px) {
+    line-height: 90px;
+}
+
+.counter > div {
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+.counter > div + div {
+    border-left: 1px dotted rgba(255,255,255,0.64) 
+}
+
+.counter.finished {
+    animation-name: counter-anim;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.counter .timer-count.finished {
+}
+
+.counter .turn-count.finished {
+}
+
+@keyframes counter-anim {
+    50% {
+        line-height: 100vh;
+        opacity: 0.4;
+    }
+    99% {
+        bottom: calc(100vh + 40px);
+        line-height: 40px;
+        opacity: 0.1;
+    }
+    100% {
+        bottom: calc(100vh + 40px);
+        line-height: 40px;
+        background: transparent;
+        opacity: 1;
+        display: block;
+    }
+}
+
+.final-points-count,
+.final-turn-count,
+.final-timer-count {
+    position: fixed; top: -50px; right: 0; left: 0;
+    display: block;
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    font-size: 40px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.56);
+}
+
+.final-turn-count.finished {
+    transform: translateY(100px);
+    transition: 1s;
+}
+
+.final-timer-count.finished {
+    transform: translateY(200px);
+    transition: 1s;
+}
+
+.final-points-count.finished {
+    transform: translateY(300px);
+    transition: 1s;
 }

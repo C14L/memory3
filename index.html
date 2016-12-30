@@ -30,10 +30,19 @@
                     <div class="back"></div>
                 </div>
             </div>
-            <div class="counter">
-                <div ng-bind="turnedCounter"></div>
-                <div ng-bind="matchedCounter"></div>
-                <div ng-bind="timer"></div>
+            <div class="counter" ng-class="{finished: isFinished}">
+                <div class="turn-count" ng-bind="turnedCounter"></div>
+                <div class="match-count" ng-bind="matchedCounter"></div>
+                <div class="timer-count" ng-bind="timer"></div>
+            </div>
+            <div class="final-turn-count" ng-class="{finished: isFinishedTurn}">
+                {{turnedCounter}} turns
+            </div>
+            <div class="final-timer-count" ng-class="{finished: isFinishedTimer}">
+                {{timer}} seconds
+            </div>
+            <div class="final-points-count" ng-class="{finished: points}" ng-click="restart()">
+                {{points}} points
             </div>
         </main>
     </body>
