@@ -94,10 +94,12 @@ body::after {
     background-size: cover;
     transform: rotateY(180deg);
     background-position: center center;
+    will-change: rotate, rotateY, scale;
 }
 
 .card > .back {
     background: deepskyblue;
+    will-change: rotate, rotateY, scale;
 }
 
 .card > .back::before {
@@ -145,6 +147,11 @@ body::after {
     animation-duration: 0.8s;
     animation-fill-mode: forwards;
     pointer-events: none;
+}
+
+.card.remove > .front,
+.card.remove > .back {
+    will-change: auto; /* once the card is removed, reset will-change optimization */
 }
 
 @keyframes remove-anim {
