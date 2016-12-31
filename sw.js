@@ -1,12 +1,12 @@
 
-const SW_VERSION = '3.16';
+const SW_VERSION = '3.17';
 const SW_ACTIVE = true;
 const SW_LOG_PREFIX = 'SW' + SW_VERSION + ' --> ';
 const SW_CACHE = 'memory' + SW_VERSION;
 
 const BASEPATH = '/memory/3/';
 const ITEMSTRING = 'cat dog elephant giraffe hippo kudu monkey panda pig seal squirrel zebra';
-const FILES = [
+const FILES = get_pic_names(ITEMSTRING).concat([
         BASEPATH + 'angular-animate.min.js',
         BASEPATH + 'angular-aria.min.js',
         BASEPATH + 'angular-touch.js',
@@ -20,8 +20,8 @@ const FILES = [
         BASEPATH + 'launcher-icon-4x.png', 
         BASEPATH + 'main.css', 
         BASEPATH + 'main.js',
-        BASEPATH + 'manifest.json',
-    ].concat(get_pic_names(ITEMSTRING));
+        // BASEPATH + 'manifest.json',
+    ]);
 
 if (SW_ACTIVE) {
     console.log(SW_LOG_PREFIX + 'ServiceWorker active.');
@@ -35,7 +35,7 @@ if (SW_ACTIVE) {
     });
 
     self.addEventListener('fetch', event => {
-        event.respondWith(caches.match(event.request));
+        event.respondWith(caches.match(event.request) || fetch(event.request));
     });
 
 } else {
