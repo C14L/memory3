@@ -1,17 +1,18 @@
 
-const SW_VERSION = '3.17';
+const SW_VERSION = '3.19';
+const SW_MV = SW_VERSION.split('.')[0]; // major version number
 const SW_ACTIVE = true;
 const SW_LOG_PREFIX = 'SW' + SW_VERSION + ' --> ';
-const SW_CACHE = 'memory' + SW_VERSION;
+const SW_CACHE = 'memory' + SW_MV;
 
-const BASEPATH = '/memory/3/';
+const BASEPATH = '/memory/' + SW_MV + '/';
 const ITEMSTRING = 'cat dog elephant giraffe hippo kudu monkey panda pig seal squirrel zebra';
 const FILES = get_pic_names(ITEMSTRING).concat([
         BASEPATH + 'angular-animate.min.js',
         BASEPATH + 'angular-aria.min.js',
         BASEPATH + 'angular-touch.js',
         BASEPATH + 'angular.min.js',
-        BASEPATH + 'favicon.ico',
+        BASEPATH + '../favicon.ico',
         BASEPATH,
         BASEPATH + 'index.html', 
         BASEPATH + 'launcher-icon.png', 
@@ -28,6 +29,7 @@ if (SW_ACTIVE) {
 
     self.addEventListener('install', event => {
         caches.open(SW_CACHE).then(cache => cache.addAll(FILES));
+        self.skipWaiting();
     });
 
     self.addEventListener('activate', event => {
